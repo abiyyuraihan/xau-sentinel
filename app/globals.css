@@ -1,0 +1,385 @@
+@import "tailwindcss";
+
+/* Token desain
+   vault   : dasar halaman, biru-hitam ruang brankas
+   hull    : permukaan panel
+   rib     : garis dan rangka
+   bullion : aksen utama, warna logam emas
+   up/down : arah harga
+   plasma  : informasi netral
+   ice     : teks sekunder
+   paper   : teks utama */
+:root {
+  --vault: #010204;
+  --hull: #05070c;
+  --hull-2: #080b12;
+  --rib: #121824;
+  --rib-2: #202a3d;
+  --bullion: #e8b54a;
+  --up: #2fd3a7;
+  --down: #ff5c7a;
+  --plasma: #6c8cff;
+  --ice: #7d8fb0;
+  --paper: #e8edf7;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-vault: var(--vault);
+  --color-hull: var(--hull);
+  --color-hull-2: var(--hull-2);
+  --color-rib: var(--rib);
+  --color-rib-2: var(--rib-2);
+  --color-bullion: var(--bullion);
+  --color-up: var(--up);
+  --color-down: var(--down);
+  --color-plasma: var(--plasma);
+  --color-ice: var(--ice);
+  --color-paper: var(--paper);
+  --font-display: "Chakra Petch", "IBM Plex Sans", system-ui, sans-serif;
+  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+html {
+  background: var(--vault);
+}
+
+body {
+  min-height: 100vh;
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  background:
+    radial-gradient(1000px 360px at 50% -200px, rgba(232, 181, 74, 0.07), transparent 70%),
+    linear-gradient(rgba(143, 163, 200, 0.022) 1px, transparent 1px) 0 0 / 100% 40px,
+    linear-gradient(90deg, rgba(143, 163, 200, 0.022) 1px, transparent 1px) 0 0 / 40px 100%,
+    var(--vault);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(232, 181, 74, 0.35);
+}
+
+:focus-visible {
+  outline: 2px solid var(--bullion);
+  outline-offset: 2px;
+}
+
+.num {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+/* ───────── Panel ───────── */
+
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--rib);
+  background: linear-gradient(180deg, rgba(8, 11, 18, 0.96), rgba(3, 4, 8, 0.96));
+  box-shadow:
+    inset 0 1px 0 rgba(232, 181, 74, 0.06),
+    0 18px 40px -24px rgba(0, 0, 0, 0.9);
+}
+
+/* Siku di dua sudut: penanda rangka, sekaligus pembeda panel dari latar grid */
+.panel::before,
+.panel::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+}
+.panel::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--bullion);
+  border-left: 2px solid var(--bullion);
+}
+.panel::after {
+  right: -1px;
+  bottom: -1px;
+  border-right: 2px solid var(--rib-2);
+  border-bottom: 2px solid var(--rib-2);
+}
+
+.panel-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--rib);
+  background: linear-gradient(90deg, rgba(232, 181, 74, 0.05), transparent 45%);
+}
+
+/* Batang emas kecil di depan judul: menandai awal setiap panel */
+.panel-title::before {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 13px;
+  margin-right: 10px;
+  vertical-align: -1px;
+  background: var(--bullion);
+  box-shadow: 0 0 10px rgba(232, 181, 74, 0.7);
+}
+
+.price-glow {
+  text-shadow: 0 0 22px rgba(232, 181, 74, 0.35);
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--paper);
+}
+
+.panel-meta {
+  font-size: 12px;
+  color: var(--ice);
+}
+
+.panel-body {
+  padding: 16px;
+  min-height: 0;
+}
+
+.sub-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--ice);
+  margin-bottom: 8px;
+}
+
+.rule {
+  height: 1px;
+  background: var(--rib);
+  margin: 16px 0;
+}
+
+.scroll {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rib-2) transparent;
+}
+
+/* ───────── Kontrol ───────── */
+
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--rib);
+  background: #020306;
+}
+.seg button {
+  padding: 5px 11px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ice);
+  border-right: 1px solid var(--rib);
+  cursor: pointer;
+}
+.seg button:last-child {
+  border-right: 0;
+}
+.seg button:hover {
+  color: var(--paper);
+}
+.seg button[aria-pressed="true"] {
+  color: var(--vault);
+  background: var(--bullion);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 12px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--paper);
+  border: 1px solid var(--rib-2);
+  background: #080b12;
+  cursor: pointer;
+}
+.btn:hover {
+  border-color: var(--bullion);
+  color: var(--bullion);
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: var(--rib);
+  color: var(--ice);
+}
+.btn-gold {
+  color: var(--vault);
+  background: var(--bullion);
+  border-color: var(--bullion);
+}
+.btn-gold:hover {
+  color: var(--vault);
+  filter: brightness(1.08);
+}
+
+.field {
+  width: 100%;
+  padding: 7px 10px;
+  font: inherit;
+  color: var(--paper);
+  background: #020306;
+  border: 1px solid var(--rib-2);
+}
+.field:focus {
+  border-color: var(--bullion);
+  outline: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--ice);
+  border: 1px solid var(--rib);
+  background: #030509;
+  white-space: nowrap;
+}
+.chip-up {
+  color: var(--up);
+  border-color: rgba(47, 211, 167, 0.4);
+  background: rgba(47, 211, 167, 0.08);
+}
+.chip-down {
+  color: var(--down);
+  border-color: rgba(255, 92, 122, 0.4);
+  background: rgba(255, 92, 122, 0.08);
+}
+.chip-gold {
+  color: var(--bullion);
+  border-color: rgba(232, 181, 74, 0.45);
+  background: rgba(232, 181, 74, 0.08);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ice);
+  flex: none;
+}
+.dot-up {
+  background: var(--up);
+  box-shadow: 0 0 8px var(--up);
+}
+.dot-down {
+  background: var(--down);
+  box-shadow: 0 0 8px var(--down);
+}
+.dot-gold {
+  background: var(--bullion);
+  box-shadow: 0 0 8px var(--bullion);
+}
+
+.text-tone-up {
+  color: var(--up);
+}
+.text-tone-down {
+  color: var(--down);
+}
+.text-tone-flat {
+  color: var(--ice);
+}
+
+/* ───────── Inti sinyal ───────── */
+
+.core-ring {
+  transition: stroke-dasharray 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.core-orbit {
+  transform-origin: 150px 150px;
+  animation: orbit 60s linear infinite;
+}
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.live-dot {
+  animation: live 1.8s ease-in-out infinite;
+}
+@keyframes live {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.alert-siaga {
+  border-color: var(--bullion);
+  background: linear-gradient(90deg, rgba(232, 181, 74, 0.16), rgba(232, 181, 74, 0.03));
+}
+.alert-pantau {
+  border-color: rgba(108, 140, 255, 0.6);
+  background: linear-gradient(90deg, rgba(108, 140, 255, 0.14), rgba(108, 140, 255, 0.03));
+}
+
+.watermark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(28px, 6vw, 64px);
+  letter-spacing: 0.12em;
+  color: rgba(232, 181, 74, 0.1);
+  z-index: 3;
+}
+
+table.grid-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+table.grid-table th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--ice);
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--rib);
+  white-space: nowrap;
+}
+table.grid-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid rgba(18, 24, 36, 0.9);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .core-orbit,
+  .live-dot {
+    animation: none;
+  }
+  .core-ring {
+    transition: none;
+  }
+}
